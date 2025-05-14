@@ -1,115 +1,71 @@
 Starting greedy feature selection...
 
 --- Finding best configuration with 1 features ---
-Testing configuration: {'Basic': True, 'Context_Words': False, 'Context_POS': False, 'Specific': False, 'Lemmas': False} out of 5
+Testing configuration: {'Basic': True, 'Context_Words': False, 'Context_POS': False, 'Specific': False, 'Lemmas': False}
 F1 Score: 0.7248, Time: 114.26 seconds
-Testing configuration: {'Basic': False, 'Context_Words': True, 'Context_POS': False, 'Specific': False, 'Lemmas': False} out of 5
-F1 Score: 0.7248, Time: 114.26 seconds
-Testing configuration: {'Basic': False, 'Context_Words': True, 'Context_POS': False, 'Specific': False, 'Lemmas': False} out of 5
+
+Testing configuration: {'Basic': False, 'Context_Words': True, 'Context_POS': False, 'Specific': False, 'Lemmas': False}
 F1 Score: 0.3553, Time: 37.61 seconds
-Testing configuration: {'Basic': False, 'Context_Words': False, 'Context_POS': True, 'Specific': False, 'Lemmas': False} out of 5
-F1 Score: 0.3553, Time: 37.61 seconds
-Testing configuration: {'Basic': False, 'Context_Words': False, 'Context_POS': True, 'Specific': False, 'Lemmas': False} out of 5
+
+Testing configuration: {'Basic': False, 'Context_Words': False, 'Context_POS': True, 'Specific': False, 'Lemmas': False}
 F1 Score: 0.3270, Time: 41.88 seconds
-Testing configuration: {'Basic': False, 'Context_Words': False, 'Context_POS': False, 'Specific': True, 'Lemmas': False} out of 5
-F1 Score: 0.3270, Time: 41.88 seconds
-Testing configuration: {'Basic': False, 'Context_Words': False, 'Context_POS': False, 'Specific': True, 'Lemmas': False} out of 5
+
+Testing configuration: {'Basic': False, 'Context_Words': False, 'Context_POS': False, 'Specific': True, 'Lemmas': False}
 F1 Score: 0.0061, Time: 14.61 seconds
-Testing configuration: {'Basic': False, 'Context_Words': False, 'Context_POS': False, 'Specific': False, 'Lemmas': True} out of 5
-F1 Score: 0.0061, Time: 14.61 seconds
-Testing configuration: {'Basic': False, 'Context_Words': False, 'Context_POS': False, 'Specific': False, 'Lemmas': True} out of 5
+
+Testing configuration: {'Basic': False, 'Context_Words': False, 'Context_POS': False, 'Specific': False, 'Lemmas': True}
 F1 Score: 0.5147, Time: 32.96 seconds
-F1 Score: 0.5147, Time: 32.96 seconds
+
 Saved best model with 1 features to best_model_r1_B.crf.tagger
 Best configuration with 1 features: ['Basic']
 Best F1 score: 0.7248
 
 --- Finding best configuration with 2 features ---
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': False, 'Specific': False, 'Lemmas': False} out of 4
-Saved best model with 1 features to best_model_r1_B.crf.tagger
-Best configuration with 1 features: ['Basic']
-Best F1 score: 0.7248
+Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': False, 'Specific': False, 'Lemmas': False}
+F1 Score: 0.7564, Time: 118.38 seconds
 
---- Finding best configuration with 2 features ---
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': False, 'Specific': False, 'Lemmas': False} out of 4
-F1 Score: 0.7564, Time: 118.38 seconds
-Testing configuration: {'Basic': True, 'Context_Words': False, 'Context_POS': True, 'Specific': False, 'Lemmas': False} out of 4
-F1 Score: 0.7564, Time: 118.38 seconds
-Testing configuration: {'Basic': True, 'Context_Words': False, 'Context_POS': True, 'Specific': False, 'Lemmas': False} out of 4
+Testing configuration: {'Basic': True, 'Context_Words': False, 'Context_POS': True, 'Specific': False, 'Lemmas': False}
 F1 Score: 0.7512, Time: 155.68 seconds
-Testing configuration: {'Basic': True, 'Context_Words': False, 'Context_POS': False, 'Specific': True, 'Lemmas': False} out of 4
-F1 Score: 0.7512, Time: 155.68 seconds
-Testing configuration: {'Basic': True, 'Context_Words': False, 'Context_POS': False, 'Specific': True, 'Lemmas': False} out of 4
+
+Testing configuration: {'Basic': True, 'Context_Words': False, 'Context_POS': False, 'Specific': True, 'Lemmas': False}
 F1 Score: 0.7243, Time: 100.20 seconds
-Testing configuration: {'Basic': True, 'Context_Words': False, 'Context_POS': False, 'Specific': False, 'Lemmas': True} out of 4
-F1 Score: 0.7243, Time: 100.20 seconds
-Testing configuration: {'Basic': True, 'Context_Words': False, 'Context_POS': False, 'Specific': False, 'Lemmas': True} out of 4
+
+Testing configuration: {'Basic': True, 'Context_Words': False, 'Context_POS': False, 'Specific': False, 'Lemmas': True}
 F1 Score: 0.7396, Time: 120.04 seconds
-F1 Score: 0.7396, Time: 120.04 seconds
+
 Saved best model with 2 features to best_model_r2_B_C.crf.tagger
 Best configuration with 2 features: ['Basic', 'Context_Words']
 Best F1 score: 0.7564
 
 --- Finding best configuration with 3 features ---
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': False, 'Lemmas': False} out of 3
-Saved best model with 2 features to best_model_r2_B_C.crf.tagger
-Best configuration with 2 features: ['Basic', 'Context_Words']
-Best F1 score: 0.7564
+Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': False, 'Lemmas': False}
+F1 Score: 0.7681, Time: 172.30 seconds
 
---- Finding best configuration with 3 features ---
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': False, 'Lemmas': False} out of 3
-F1 Score: 0.7681, Time: 172.30 seconds
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': False, 'Specific': True, 'Lemmas': False} out of 3
-F1 Score: 0.7681, Time: 172.30 seconds
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': False, 'Specific': True, 'Lemmas': False} out of 3
+Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': False, 'Specific': True, 'Lemmas': False}
 F1 Score: 0.7533, Time: 110.48 seconds
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': False, 'Specific': False, 'Lemmas': True} out of 3
-F1 Score: 0.7533, Time: 110.48 seconds
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': False, 'Specific': False, 'Lemmas': True} out of 3
+
+Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': False, 'Specific': False, 'Lemmas': True}
 F1 Score: 0.7602, Time: 144.00 seconds
-F1 Score: 0.7602, Time: 144.00 seconds
+
 Saved best model with 3 features to best_model_r3_B_C_C.crf.tagger
 Best configuration with 3 features: ['Basic', 'Context_Words', 'Context_POS']
 Best F1 score: 0.7681
 
 --- Finding best configuration with 4 features ---
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': True, 'Lemmas': False} out of 2
-Saved best model with 3 features to best_model_r3_B_C_C.crf.tagger
-Best configuration with 3 features: ['Basic', 'Context_Words', 'Context_POS']
-Best F1 score: 0.7681
+Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': True, 'Lemmas': False}
+F1 Score: 0.7675, Time: 185.58 seconds
 
---- Finding best configuration with 4 features ---
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': True, 'Lemmas': False} out of 2
-F1 Score: 0.7675, Time: 185.58 seconds
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': False, 'Lemmas': True} out of 2
-F1 Score: 0.7675, Time: 185.58 seconds
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': False, 'Lemmas': True} out of 2
+Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': False, 'Lemmas': True}
 F1 Score: 0.7732, Time: 173.28 seconds
-F1 Score: 0.7732, Time: 173.28 seconds
+
 Saved best model with 4 features to best_model_r4_B_C_C_L.crf.tagger
 Best configuration with 4 features: ['Basic', 'Context_Words', 'Context_POS', 'Lemmas']
 Best F1 score: 0.7732
 
 --- Finding best configuration with 5 features ---
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': True, 'Lemmas': True} out of 1
-Saved best model with 4 features to best_model_r4_B_C_C_L.crf.tagger
-Best configuration with 4 features: ['Basic', 'Context_Words', 'Context_POS', 'Lemmas']
-Best F1 score: 0.7732
-
---- Finding best configuration with 5 features ---
-Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': True, 'Lemmas': True} out of 1
+Testing configuration: {'Basic': True, 'Context_Words': True, 'Context_POS': True, 'Specific': True, 'Lemmas': True}
 F1 Score: 0.7727, Time: 178.62 seconds
-F1 Score: 0.7727, Time: 178.62 seconds
-Saved best model with 5 features to best_model_r5_B_C_C_L_S.crf.tagger
-Best configuration with 5 features: ['Basic', 'Context_Words', 'Context_POS', 'Lemmas', 'Specific']
-Best F1 score: 0.7727
 
-=== Summary of Greedy Feature Selection ===
-Round 1: Best features = ['Basic'], F1 score = 0.7248
-Round 2: Best features = ['Basic', 'Context_Words'], F1 score = 0.7564
-Round 3: Best features = ['Basic', 'Context_Words', 'Context_POS'], F1 score = 0.7681
-Round 4: Best features = ['Basic', 'Context_Words', 'Context_POS', 'Lemmas'], F1 score = 0.7732
-Round 5: Best features = ['Basic', 'Context_Words', 'Context_POS', 'Lemmas', 'Specific'], F1 score = 0.7727
 Saved best model with 5 features to best_model_r5_B_C_C_L_S.crf.tagger
 Best configuration with 5 features: ['Basic', 'Context_Words', 'Context_POS', 'Lemmas', 'Specific']
 Best F1 score: 0.7727
