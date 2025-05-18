@@ -453,6 +453,8 @@ def plot_confusion_matrix(confusion_matrix: Dict[Tuple[str, str], int], entity_t
         if gold != pred:
             print(f"  {gold} mistaken as {pred}: {count} times")
     
+from nltk.tag import CRFTagger
+
 # Example of running a complete analysis with the optimal feature configuration
 def run_optimal_configuration(model_path=None, preprocessed_test = None, train_tags = None, otherTAG = None):
     """
@@ -468,10 +470,10 @@ def run_optimal_configuration(model_path=None, preprocessed_test = None, train_t
     # Create feature function with optimal settings (based on our findings)
     optimal_feat_func = OptimizedFeatFunc(
         use_Basic=True,
-        use_context_words=True, 
+        use_context_words=False, 
         use_contex_POS_tag=False,
-        use_lemas=True,  # Including lemmatization
-        use_specific_caracteristics=True
+        use_lemas=False,  # Including lemmatization
+        use_specific_caracteristics=False
     )
     
     # Initialize CRF tagger with our feature function
@@ -502,3 +504,119 @@ def run_optimal_configuration(model_path=None, preprocessed_test = None, train_t
     plot_confusion_matrix(entity_results['confusion_matrix'], entity_results['entity_types'])
     
     return entity_results
+import time
+
+def train_completo(processed_train, processed_val):
+    # Define feature groups to test
+    feature_groups = {
+        "Basic": True,        # word, length, etc.
+        "Context_Words": True,  # prev_word, next_word
+        "Context_POS": True,    # POS tags of surrounding words
+        "Specific": True,      # location_suffix, organization_precedent, etc.
+        "Lemmas": True,        # Use lemmatization features
+    }
+    
+    # Initialize variables to track best configurations
+    best_features = []
+    best_scores = []
+    best_models = []
+    
+    print("Starting greedy feature selection...")
+    
+    # Iterate through feature counts (0 to n) INCLUDING ALSO THE BASELINE (NO FEATURES)
+    for r in range(0, len(feature_groups) + 1):
+        print(f"\n--- Finding best configuration with {r} features ---")
+        
+        # In first round, test all individual features
+        # In subsequent rounds, only test combinations that include previous best features
+        if r == 0:
+            # Test no features (baseline)
+            candidates = [[]]
+        elif r == 1:
+            # Test each feature individually
+            candidates = [[feat] for feat in feature_groups.keys()]
+        else:
+            # Keep best features from previous round and test adding one more
+            candidates = [best_features[-1] + [feat] for feat in feature_groups.keys() 
+                         if feat not in best_features[-1]]
+        
+        best_config = None
+        best_score = 0
+        best_model = None
+        
+        # Test all candidate configurations for this round
+        for candidate_features in candidates:
+            # Create configuration with only these features enabled
+            config = {feat: (feat in candidate_features) for feat in feature_groups.keys()}
+            print(f"Testing configuration: {config} out of {len(candidates)}")
+            
+            # Test this configuration
+            start_time = time.time()
+            tagger, entity_metrics = evaluate_feature_combination(config, processed_train, processed_val)
+            elapsed = time.time() - start_time
+            
+            # Check if this is the best so far
+            f1_score = entity_metrics['f1']
+            print(f"F1 Score: {f1_score:.4f}, Time: {elapsed:.2f} seconds")
+            
+            if f1_score > best_score:
+                best_score = f1_score
+                best_config = candidate_features
+                best_model = tagger
+        
+        # Save best configuration for this round
+        best_features.append(best_config)
+        best_scores.append(best_score)
+        best_models.append(best_model)
+        
+        # Save the best model for this round
+        if best_model:
+            # Generate a descriptive model name with round number and features
+            features_str = '_'.join([k[:1] for k, v in {feat: True for feat in best_config}.items()])
+            model_path = f'best_model_r{r}_{features_str}.crf.tagger'
+            
+            # Train and save the best model for this round
+            best_model.train(processed_train, model_path)
+            print(f"Saved best model with {r} features to {model_path}")
+        
+        print(f"Best configuration with {r} features: {best_config}")
+        print(f"Best F1 score: {best_score:.4f}")
+    
+    # Print summary of all best configurations
+    print("\n=== Summary of Greedy Feature Selection ===")
+    for r in range(len(best_features)):
+        print(f"Round {r+1}: Best features = {best_features[r]}, F1 score = {best_scores[r]:.4f}")
+    
+    # Plot results
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(1, len(best_scores)+1), best_scores, marker='o')
+    plt.xlabel('Number of Features')
+    plt.ylabel('F1 Score')
+    plt.title('F1 Score vs. Number of Features (Greedy Selection)')
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+    
+    return best_features, best_scores, best_models
+
+def evaluate_feature_combination(config, processed_train, processed_val):
+    """Evaluate a single feature configuration and return metrics"""
+    # Create feature function with the specified configuration
+    feat_func = OptimizedFeatFunc(
+        use_Basic=config['Basic'], 
+        use_context_words=config['Context_Words'], 
+        use_contex_POS_tag=config['Context_POS'], 
+        use_specific_caracteristics=config['Specific'],
+        use_lemas=config['Lemmas']
+    )
+    
+    # Create the CRF tagger with the feature function
+    ct = CRFTagger(feature_func=feat_func)
+    
+    # Create a temporary model file for evaluation
+    ct.train(processed_train, 'temp_model.crf.tagger')
+    
+    # Calculate entity-level metrics
+    entity_metrics = entity_level_accuracy(ct, processed_val)
+    
+    return ct, entity_metrics
