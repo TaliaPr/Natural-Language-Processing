@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from nltk.tag import CRFTagger
 from itertools import combinations
 from collections import Counter
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Tuple, Union, Set, Any, Optional, Callable
 import time
 import pandas as pd
 import seaborn as sns
@@ -14,7 +14,7 @@ import numpy as np
 
 
 # Crear una función para graficar
-def plot_tag_distribution(tag_counts, title, exclude_tag=None):
+def plot_tag_distribution(tag_counts: Dict[str, int], title: str, exclude_tag: Optional[str] = None) -> None:
     """ Función para graficar la distribución de etiquetas en el conjunto de entrenamiento.
     :param tag_counts: Contador de etiquetas
     :param title: Título del gráfico
@@ -36,7 +36,7 @@ class SimpleGazetteerExtractor:
     """
     Clase para extraer patrones de entidades LOC, ORG, y MISC y analizar trigramas precedentes.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         self.loc_patterns = Counter()
         self.org_patterns = Counter()
         self.misc_patterns = Counter()
@@ -44,7 +44,7 @@ class SimpleGazetteerExtractor:
         self.trigrams_before_loc = Counter()
         self.trigrams_before_misc = Counter()
 
-    def extract_patterns_and_trigrams(self, training_data: List[Tuple[List[str], List[str]]], corpus: List[List[Tuple[str, str, str]]]):
+    def extract_patterns_and_trigrams(self, training_data: List[Tuple[List[str], List[str]]], corpus: List[List[Tuple[str, str, str]]]) -> None:
         """
         Extrae patrones de entidades LOC, ORG, y MISC y analiza trigramas precedentes.
 
@@ -77,7 +77,7 @@ class SimpleGazetteerExtractor:
         # Analizar trigramas precedentes
         self._analyze_trigrams(corpus)
 
-    def _store_entity(self, entity: str, entity_type: str):
+    def _store_entity(self, entity: str, entity_type: str) -> None:
         """Almacena la entidad en el contador correspondiente."""
         if entity_type == 'LOC':
             self.loc_patterns[entity] += 1
@@ -86,7 +86,7 @@ class SimpleGazetteerExtractor:
         elif entity_type == 'MISC':
             self.misc_patterns[entity] += 1
 
-    def _analyze_trigrams(self, corpus: List[List[Tuple[str, str, str]]]):
+    def _analyze_trigrams(self, corpus: List[List[Tuple[str, str, str]]]) -> None:
         """Analiza los trigramas que preceden a organizaciones, lugares y misceláneos."""
         for sentence in corpus:
             for i in range(len(sentence)):
@@ -116,7 +116,7 @@ class SimpleGazetteerExtractor:
                     )
                     self.trigrams_before_misc[trigram] += 1
 
-    def print_patterns_and_trigrams(self):
+    def print_patterns_and_trigrams(self) -> None:
         """Imprime los patrones y trigramas más comunes encontrados."""
         print("=== Top 30 Patrones de LOC ===")
         for entity, freq in self.loc_patterns.most_common(30):
@@ -143,7 +143,7 @@ class SimpleGazetteerExtractor:
             print(f"{trigram[0]} {trigram[1]} {trigram[2]}: {freq}")
 
 class OptimizedFeatFunc:
-    def __init__(self, use_Basic: bool = True, use_context_words: bool = True, use_contex_POS_tag: bool = True, use_specific_caracteristics: bool = True, use_lemas: bool = True, use_EXTRA: bool = False)-> Dict[str, Union[str, bool]]:
+    def __init__(self, use_Basic: bool = True, use_context_words: bool = True, use_contex_POS_tag: bool = True, use_specific_caracteristics: bool = True, use_lemas: bool = True, use_EXTRA: bool = False) -> None:
         """
         Constructor de la clase de las funciones de características para el CRFTagger.
         Uso:
@@ -211,7 +211,7 @@ class OptimizedFeatFunc:
         }
         
 
-    def __call__(self, tokens: list, idx: int) -> dict:
+    def __call__(self, tokens: List[Tuple[str, str, str]], idx: int) -> Dict[str, Any]:
         # Obtener la clave única para la oración actual
         sentence_key = tuple(tokens) # se convierte a tupla porque las tuplas son inmutables
         
@@ -361,7 +361,7 @@ def prepare_data_for_crf(conll_data: List[List[Tuple[str, str, str]]], include_l
     return processed_data
 
 
-def extract_BIO(tags):
+def extract_BIO(tags: List[Union[str, Tuple[Any, str]]]) -> List[Tuple[str, int, int]]:
     entities = []
     entity_type = None
     start_idx = None
@@ -401,7 +401,7 @@ def extract_BIO(tags):
     
     return entities
 
-def extract_IO(tags):
+def extract_IO(tags: List[Union[str, Tuple[Any, str]]]) -> List[Tuple[str, int, int]]:
     """
     Extract entities from IO tagging scheme.
     
@@ -445,7 +445,7 @@ def extract_IO(tags):
     
     return entities
 
-def extract_BIOE(tags):
+def extract_BIOE(tags: List[Union[str, Tuple[Any, str]]]) -> List[Tuple[str, int, int]]:
     """
     Extract entities from BIOE tagging scheme.
     
@@ -497,7 +497,7 @@ def extract_BIOE(tags):
     
     return entities
 
-def extract_BIOES(tags):
+def extract_BIOES(tags: List[Union[str, Tuple[Any, str]]]) -> List[Tuple[str, int, int]]:
     """
     Extract entities from BIOES tagging scheme.
     
@@ -552,7 +552,7 @@ def extract_BIOES(tags):
     
     return entities
 
-def extract_BIOW(tags):
+def extract_BIOW(tags: List[Union[str, Tuple[Any, str]]]) -> List[Tuple[str, int, int]]:
     """
     Extract entities from BIOW tagging scheme.
     
@@ -599,7 +599,7 @@ def extract_BIOW(tags):
     return entities
 
 
-def extract_entities_types(gold_entities, pred_entities):
+def extract_entities_types(gold_entities: List[Tuple[str, int, int]], pred_entities: List[Tuple[str, int, int]]) -> Set[str]:
     entity_types = set()
     # Add entity types to our set
     for entity_type, _, _ in gold_entities:
@@ -608,7 +608,7 @@ def extract_entities_types(gold_entities, pred_entities):
         entity_types.add(entity_type)
     return entity_types  # Added return statement
 
-def extract_confusion_matrix(gold_entities, pred_entities):
+def extract_confusion_matrix(gold_entities: List[Tuple[str, int, int]], pred_entities: List[Tuple[str, int, int]]) -> Dict[Tuple[str, str], int]:
     """
     Extract confusion matrix for entity recognition.
     
@@ -662,7 +662,7 @@ def extract_confusion_matrix(gold_entities, pred_entities):
     
     return confusion_matrix
 
-def extract_entities(tags, otherTAG = None):
+def extract_entities(tags: List[Union[str, Tuple[Any, str]]], otherTAG: Optional[str] = None) -> List[Tuple[str, int, int]]:
     """
     Extract entity spans from a sequence of BIO tags.
     
@@ -692,7 +692,7 @@ def extract_entities(tags, otherTAG = None):
     
 
 
-def evaluate_entities(gold_entities, pred_entities):
+def evaluate_entities(gold_entities: List[Tuple[str, int, int]], pred_entities: List[Tuple[str, int, int]]) -> Dict[str, int]:
     """
     Calculate precision, recall, and F1 score for entity recognition.
     
@@ -716,7 +716,7 @@ def evaluate_entities(gold_entities, pred_entities):
         'correct': correct
     }
 
-def evaluate_ner_corpus(gold_data, predicted_data, otherTAG=None):
+def evaluate_ner_corpus(gold_data: List[List[Tuple[Any, str]]], predicted_data: List[List[Tuple[Any, str]]], otherTAG: Optional[str] = None) -> Dict[str, Any]:
     """
     Evaluate NER performance at entity level across an entire corpus.
     
@@ -798,7 +798,7 @@ def evaluate_ner_corpus(gold_data, predicted_data, otherTAG=None):
 
 
 # Extend CRFTagger to support entity-level evaluation
-def entity_level_accuracy(tagger, test_data, otherTAG = None):
+def entity_level_accuracy(tagger: CRFTagger, test_data: List[List[Tuple[Tuple[str, str, str], str]]], otherTAG: Optional[str] = None) -> Dict[str, Any]:
     """
     Calculate entity-level evaluation metrics for a CRFTagger.
     
@@ -828,7 +828,7 @@ def entity_level_accuracy(tagger, test_data, otherTAG = None):
 
 
 
-def plot_confusion_matrix(confusion_matrix: Dict[Tuple[str, str], int], entity_types: set) -> None:
+def plot_confusion_matrix(confusion_matrix: Dict[Tuple[str, str], int], entity_types: Set[str]) -> None:
     """Args:
         confusion_matrix: Dictionary with (gold_type, pred_type) keys and counts as values
         entity_types: Set of entity types to include in the matrix
@@ -872,7 +872,7 @@ def plot_confusion_matrix(confusion_matrix: Dict[Tuple[str, str], int], entity_t
     
 
 # Example of running a complete analysis with the optimal feature configuration
-def run_optimal_configuration(model_path=None, preprocessed_test = None, train_tags = None, otherTAG = None):
+def run_optimal_configuration(model_path: Optional[str] = None, preprocessed_test: Optional[List[List[Tuple[Tuple[str, str, str], str]]]] = None, train_tags: Optional[List[List[Tuple[Tuple[str, str, str], str]]]] = None, otherTAG: Optional[str] = None) -> Dict[str, Any]:
     """
     Run a complete analysis with the optimal feature configuration.
     
@@ -924,7 +924,7 @@ def run_optimal_configuration(model_path=None, preprocessed_test = None, train_t
     return entity_results
 
 
-def train_completo(processed_train, processed_val):
+def train_completo(processed_train: List[List[Tuple[Tuple[str, str, str], str]]], processed_val: List[List[Tuple[Tuple[str, str, str], str]]]) -> Tuple[List[List[str]], List[float], List[CRFTagger]]:
     # Define feature groups to test
     feature_groups = {
         "Basic": True,        # word, length, etc.
@@ -1017,7 +1017,7 @@ def train_completo(processed_train, processed_val):
     
     return best_features, best_scores, best_models
 
-def evaluate_feature_combination(config, processed_train, processed_val):
+def evaluate_feature_combination(config: Dict[str, bool], processed_train: List[List[Tuple[Tuple[str, str, str], str]]], processed_val: List[List[Tuple[Tuple[str, str, str], str]]]) -> Tuple[CRFTagger, Dict[str, Any]]:
     """Evaluate a single feature configuration and return metrics"""
     # Create feature function with the specified configuration
     feat_func = OptimizedFeatFunc(
@@ -1040,7 +1040,7 @@ def evaluate_feature_combination(config, processed_train, processed_val):
     return ct, entity_metrics
 
 
-def bio_to_io(tagged_sent: List[Tuple[str, str, str]]) -> List[List[Tuple[str, str, str]]]:
+def bio_to_io(tagged_sent: List[List[Tuple[str, str, str]]]) -> List[List[Tuple[str, str, str]]]:
     """Convert BIO tagging to IO tagging
     
     Args:
@@ -1184,7 +1184,7 @@ def bio_to_biow(tagged_sent: List[List[Tuple[str, str, str]]]) -> List[List[Tupl
 
 
 ## hay que guardar los modelos de tags y las salidas.
-def test_with_othersCodes(train, preprocessed_test, best_model_path):
+def test_with_othersCodes(train: List[List[Tuple[str, str, str]]], preprocessed_test: List[List[Tuple[Tuple[str, str, str], str]]], best_model_path: str) -> Dict[str, Dict[str, float]]:
     Codes = ['BIO', 'IO', 'BIOE', 'BIOES', 'BIOW']
     test_results = {}
     
