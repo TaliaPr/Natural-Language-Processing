@@ -1,0 +1,1214 @@
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Frida PROPN B-PER
+Kahlo PROPN I-PER
+nació VERB O
+en ADP O
+Madrid PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Rigoberta PROPN B-PER
+Menchú PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Pedro PROPN B-PER
+Almodóvar PROPN I-PER
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Rosalía PROPN B-PER
+, PUNCT O
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Lionel PROPN B-PER
+Messi PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Pablo PROPN B-PER
+Neruda PROPN I-PER
+nació VERB O
+en ADP O
+Lima PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Rosalía PROPN B-PER
+, PUNCT O
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Barcelona PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Madrid PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
+Rosalía PROPN B-PER
+, PUNCT O
+nació VERB O
+en ADP O
+Lima PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Rosalía PROPN B-PER
+, PUNCT O
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Pablo PROPN B-PER
+Neruda PROPN I-PER
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Lionel PROPN B-PER
+Messi PROPN I-PER
+nació VERB O
+en ADP O
+Lima PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Lima PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Pablo PROPN B-PER
+Neruda PROPN I-PER
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Frida PROPN B-PER
+Kahlo PROPN I-PER
+nació VERB O
+en ADP O
+Barcelona PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Barcelona PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Lima PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Rigoberta PROPN B-PER
+Menchú PROPN I-PER
+nació VERB O
+en ADP O
+Madrid PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Pedro PROPN B-PER
+Almodóvar PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
+Rigoberta PROPN B-PER
+Menchú PROPN I-PER
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
+Rosalía PROPN B-PER
+, PUNCT O
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Frida PROPN B-PER
+Kahlo PROPN I-PER
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Rigoberta PROPN B-PER
+Menchú PROPN I-PER
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Frida PROPN B-PER
+Kahlo PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
+Pedro PROPN B-PER
+Almodóvar PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Pedro PROPN B-PER
+Almodóvar PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
+Pablo PROPN B-PER
+Neruda PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Madrid PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Pablo PROPN B-PER
+Neruda PROPN I-PER
+nació VERB O
+en ADP O
+Madrid PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Lionel PROPN B-PER
+Messi PROPN I-PER
+nació VERB O
+en ADP O
+Barcelona PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Pedro PROPN B-PER
+Almodóvar PROPN I-PER
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Barcelona PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
+Rosalía PROPN B-PER
+, PUNCT O
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Pablo PROPN B-PER
+Neruda PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Pedro PROPN B-PER
+Almodóvar PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
+Frida PROPN B-PER
+Kahlo PROPN I-PER
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Frida PROPN B-PER
+Kahlo PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Barcelona PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Rosalía PROPN B-PER
+, PUNCT O
+nació VERB O
+en ADP O
+Barcelona PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Barcelona PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Rigoberta PROPN B-PER
+Menchú PROPN I-PER
+nació VERB O
+en ADP O
+Lima PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
+Rosalía PROPN B-PER
+, PUNCT O
+nació VERB O
+en ADP O
+Madrid PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Lionel PROPN B-PER
+Messi PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Rigoberta PROPN B-PER
+Menchú PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Pedro PROPN B-PER
+Almodóvar PROPN I-PER
+nació VERB O
+en ADP O
+Lima PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Pedro PROPN B-PER
+Almodóvar PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Madrid PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Frida PROPN B-PER
+Kahlo PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Madrid PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
+Pablo PROPN B-PER
+Neruda PROPN I-PER
+nació VERB O
+en ADP O
+Madrid PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Madrid PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Rigoberta PROPN B-PER
+Menchú PROPN I-PER
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Barcelona PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Rigoberta PROPN B-PER
+Menchú PROPN I-PER
+nació VERB O
+en ADP O
+Barcelona PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Frida PROPN B-PER
+Kahlo PROPN I-PER
+nació VERB O
+en ADP O
+Lima PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Lionel PROPN B-PER
+Messi PROPN I-PER
+nació VERB O
+en ADP O
+Barcelona PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Apple PROPN B-ORG
+. PUNCT O
+
+Rosalía PROPN B-PER
+, PUNCT O
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Ciudad de México PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Isabel PROPN B-PER
+Allende PROPN I-PER
+nació VERB O
+en ADP O
+Lima PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Buenos Aires PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+ONU PROPN I-ORG
+. PUNCT O
+
+Lionel PROPN B-PER
+Messi PROPN I-PER
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+Google PROPN B-ORG
+. PUNCT O
+
+Gabriel PROPN B-PER
+García Márquez PROPN I-PER
+nació VERB O
+en ADP O
+Lima PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Carlos PROPN B-PER
+Santana PROPN I-PER
+nació VERB O
+en ADP O
+Lima PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+NASA PROPN I-ORG
+. PUNCT O
+
+Frida PROPN B-PER
+Kahlo PROPN I-PER
+nació VERB O
+en ADP O
+Bogotá PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+el PROPN B-ORG
+FC PROPN I-ORG
+Barcelona PROPN I-ORG
+. PUNCT O
+
+Lionel PROPN B-PER
+Messi PROPN I-PER
+nació VERB O
+en ADP O
+Santiago PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+Universidad PROPN I-ORG
+de PROPN I-ORG
+Chile PROPN I-ORG
+. PUNCT O
+
+Diego PROPN B-PER
+Maradona PROPN I-PER
+nació VERB O
+en ADP O
+Montevideo PROPN B-LOC
+y CCONJ O
+trabajó VERB O
+en ADP O
+la PROPN B-ORG
+UNESCO PROPN I-ORG
+. PUNCT O
+
