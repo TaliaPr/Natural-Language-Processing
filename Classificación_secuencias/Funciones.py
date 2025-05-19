@@ -1,6 +1,148 @@
 import string
+import nltk
+from nltk.corpus import conll2002
+import spacy
+import matplotlib.pyplot as plt
+from nltk.tag import CRFTagger
+from itertools import combinations
+from collections import Counter
+from typing import Dict, List, Tuple
+import time
+import pandas as pd
+import seaborn as sns
+import numpy as np
+
+# Crear una función para graficar
+def plot_tag_distribution(tag_counts, title, exclude_tag=None):
+    """ Función para graficar la distribución de etiquetas en el conjunto de entrenamiento.
+    :param tag_counts: Contador de etiquetas
+    :param title: Título del gráfico
+    :param exclude_tag: Etiqueta a excluir del gráfico
+    """
+    if exclude_tag:
+        tag_counts = {tag: count for tag, count in tag_counts.items() if tag != exclude_tag}
+    plt.figure(figsize=(5, 3))
+    plt.bar(tag_counts.keys(), tag_counts.values(), color='skyblue')
+    plt.xlabel('Etiquetas')
+    plt.ylabel('Frecuencia')
+    plt.title(title)
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.show()
+
+
+class SimpleGazetteerExtractor:
+    """
+    Clase para extraer patrones de entidades LOC, ORG, y MISC y analizar trigramas precedentes.
+    """
+    def __init__(self):
+        self.loc_patterns = Counter()
+        self.org_patterns = Counter()
+        self.misc_patterns = Counter()
+        self.trigrams_before_org = Counter()
+        self.trigrams_before_loc = Counter()
+        self.trigrams_before_misc = Counter()
+
+    def extract_patterns_and_trigrams(self, training_data: List[Tuple[List[str], List[str]]], corpus: List[List[Tuple[str, str, str]]]):
+        """
+        Extrae patrones de entidades LOC, ORG, y MISC y analiza trigramas precedentes.
+
+        Args:
+            training_data: Lista de ejemplos donde cada ejemplo es una tupla (tokens, tags).
+            corpus: Lista de oraciones con tokens, etiquetas POS y etiquetas NER.
+        """
+        # Extraer patrones
+        for sentence, tags in training_data:
+            current_entity = []
+            current_type = None
+
+            for token, tag in zip(sentence, tags):
+                if tag.startswith('B-'):
+                    if current_entity and current_type:
+                        self._store_entity(' '.join(current_entity), current_type)
+                    current_entity = [token]
+                    current_type = tag[2:]
+                elif tag.startswith('I-') and current_type == tag[2:]:
+                    current_entity.append(token)
+                else:
+                    if current_entity and current_type:
+                        self._store_entity(' '.join(current_entity), current_type)
+                    current_entity = []
+                    current_type = None
+
+            if current_entity and current_type:
+                self._store_entity(' '.join(current_entity), current_type)
+
+        # Analizar trigramas precedentes
+        self._analyze_trigrams(corpus)
+
+    def _store_entity(self, entity: str, entity_type: str):
+        """Almacena la entidad en el contador correspondiente."""
+        if entity_type == 'LOC':
+            self.loc_patterns[entity] += 1
+        elif entity_type == 'ORG':
+            self.org_patterns[entity] += 1
+        elif entity_type == 'MISC':
+            self.misc_patterns[entity] += 1
+
+    def _analyze_trigrams(self, corpus: List[List[Tuple[str, str, str]]]):
+        """Analiza los trigramas que preceden a organizaciones, lugares y misceláneos."""
+        for sentence in corpus:
+            for i in range(len(sentence)):
+                _, _, ner_tag = sentence[i]
+
+                if ner_tag == 'B-ORG' and i >= 3:
+                    trigram = (
+                        sentence[i-3][0],
+                        sentence[i-2][0],
+                        sentence[i-1][0]
+                    )
+                    self.trigrams_before_org[trigram] += 1
+
+                if ner_tag == 'B-LOC' and i >= 3:
+                    trigram = (
+                        sentence[i-3][0],
+                        sentence[i-2][0],
+                        sentence[i-1][0]
+                    )
+                    self.trigrams_before_loc[trigram] += 1
+
+                if ner_tag == 'B-MISC' and i >= 3:
+                    trigram = (
+                        sentence[i-3][0],
+                        sentence[i-2][0],
+                        sentence[i-1][0]
+                    )
+                    self.trigrams_before_misc[trigram] += 1
+
+    def print_patterns_and_trigrams(self):
+        """Imprime los patrones y trigramas más comunes encontrados."""
+        print("=== Top 30 Patrones de LOC ===")
+        for entity, freq in self.loc_patterns.most_common(30):
+            print(f"{entity}: {freq}")
+
+        print("\n=== Top 30 Patrones de ORG ===")
+        for entity, freq in self.org_patterns.most_common(30):
+            print(f"{entity}: {freq}")
+
+        print("\n=== Top 30 Patrones de MISC ===")
+        for entity, freq in self.misc_patterns.most_common(30):
+            print(f"{entity}: {freq}")
+
+        print("\n=== Top 30 Trigramas que preceden a organizaciones ===")
+        for trigram, freq in self.trigrams_before_org.most_common(30):
+            print(f"{trigram[0]} {trigram[1]} {trigram[2]}: {freq}")
+
+        print("\n=== Top 30 Trigramas que preceden a lugares ===")
+        for trigram, freq in self.trigrams_before_loc.most_common(30):
+            print(f"{trigram[0]} {trigram[1]} {trigram[2]}: {freq}")
+
+        print("\n=== Top 30 Trigramas que preceden a misceláneos ===")
+        for trigram, freq in self.trigrams_before_misc.most_common(30):
+            print(f"{trigram[0]} {trigram[1]} {trigram[2]}: {freq}")
+
 class OptimizedFeatFunc:
-    def __init__(self, use_Basic: bool = True, use_context_words: bool = True, use_contex_POS_tag: bool = True, use_specific_caracteristics: bool = True, use_lemas: bool = True):
+    def __init__(self, use_Basic: bool = True, use_context_words: bool = True, use_contex_POS_tag: bool = True, use_specific_caracteristics: bool = True, use_lemas: bool = True, use_EXTRA: bool = False):
         """
         Constructor de la clase de las funciones de características para el CRFTagger.
         Uso:
@@ -16,6 +158,7 @@ class OptimizedFeatFunc:
         self.use_conext_POS_tags = use_contex_POS_tag
         self.use_specific_caracteristics = use_specific_caracteristics
         self.use_lema = use_lemas
+        self.use_extra = use_EXTRA
         
     
         self.ciudades = {"Madrid", "España", "Barcelona", "París", "Líbano", "Badajoz", "Santander", "Mérida", "Cáceres", "Europa", "Brasil", "Cataluña"}
@@ -36,9 +179,32 @@ class OptimizedFeatFunc:
             'representantes de la',
             'secretario general de'
         }
+
         
         # Cache para resultados
         self.cache = {}
+
+
+        
+        # Common pain/symptom words
+        self.symptom_words = {
+            'pain', 'ache', 'sore', 'nausea', 'fatigue', 'tired', 'dizzy', 'headache',
+            'migraine', 'cramp', 'spasm', 'numbness', 'tingling', 'rash', 'itch', 'swelling',
+            'inflammation', 'burning', 'stiff', 'stiffness', 'weak', 'weakness', 'blur', 'blurry'
+        }
+        
+        # Common finding/observation words
+        self.finding_words = {
+            'elevated', 'high', 'low', 'increase', 'decrease', 'normal', 'abnormal', 'positive',
+            'negative', 'acute', 'chronic', 'intermittent', 'constant', 'severe', 'mild', 'moderate'
+        }
+        
+        # Common medication brand names
+        self.drug_names = {
+            'lipitor', 'crestor', 'zocor', 'pravachol', 'voltaren', 'advil', 'tylenol',
+            'ibuprofen', 'aspirin', 'acetaminophen', 'naproxen', 'atorvastatin', 'rosuvastatin',
+            'simvastatin', 'pravastatin', 'diclofenac', 'pennsaid', 'tricor', 'ezetrol', 'arthrotec'
+        }
         
 
     def __call__(self, tokens: list, idx: int) -> dict:
@@ -135,6 +301,17 @@ class OptimizedFeatFunc:
                     if precedent in self.common_org_precedents:
                         feats["organization_precedent"] = True
 
+        if self.use_extra:
+            
+            if word in self.symptom_words:
+                feats["symptom_word"] = True
+            
+            if word in self.finding_words:
+                feats["finding_word"] = True
+
+            if word in self.drug_names:
+                feats["drug_name"] = True
+
         # Guardar en caché
         self.cache[cache_key] = feats
         return feats
@@ -179,6 +356,7 @@ def prepare_data_for_crf(conll_data: List[List[Tuple[str, str, str]]], include_l
     
     return processed_data
 
+
 def extract_BIO(tags):
     entities = []
     entity_type = None
@@ -219,6 +397,204 @@ def extract_BIO(tags):
     
     return entities
 
+def extract_IO(tags):
+    """
+    Extract entities from IO tagging scheme.
+    
+    Args:
+        tags: List of IO tags (e.g., 'I-PER', 'O')
+        
+    Returns:
+        List of tuples (entity_type, start_idx, end_idx)
+    """
+    entities = []
+    entity_type = None
+    start_idx = None
+    
+    for i, tag in enumerate(tags):
+        # Handle the case where tag might be a tuple
+        if isinstance(tag, tuple):
+            tag = tag[1]  # Extract the actual tag if it's a tuple (word, tag)
+            
+        if tag.startswith('I-'):
+            current_type = tag[2:]  # Remove 'I-' prefix
+            
+            # If not currently tracking an entity OR the entity type changes
+            if entity_type is None:
+                entity_type = current_type
+                start_idx = i
+            elif current_type != entity_type:
+                # Close current entity and start a new one
+                entities.append((entity_type, start_idx, i - 1))
+                entity_type = current_type
+                start_idx = i
+        else:  # 'O' tag
+            # If we were tracking an entity, add it to the list
+            if entity_type is not None:
+                entities.append((entity_type, start_idx, i - 1))
+                entity_type = None
+                start_idx = None
+    
+    # Don't forget the last entity if the sequence ends with an entity
+    if entity_type is not None:
+        entities.append((entity_type, start_idx, len(tags) - 1))
+    
+    return entities
+
+def extract_BIOE(tags):
+    """
+    Extract entities from BIOE tagging scheme.
+    
+    Args:
+        tags: List of BIOE tags (e.g., 'B-PER', 'I-PER', 'E-PER', 'O')
+        
+    Returns:
+        List of tuples (entity_type, start_idx, end_idx)
+    """
+    entities = []
+    entity_type = None
+    start_idx = None
+    
+    for i, tag in enumerate(tags):
+        # Handle the case where tag might be a tuple
+        if isinstance(tag, tuple):
+            tag = tag[1]  # Extract the actual tag if it's a tuple
+            
+        if tag.startswith('B-'):
+            # If we were tracking an entity, add it to the list (should not happen in valid BIOE)
+            if entity_type is not None:
+                entities.append((entity_type, start_idx, i - 1))
+            
+            # Start a new entity
+            entity_type = tag[2:]  # Remove 'B-' prefix
+            start_idx = i
+        elif tag.startswith('I-'):
+            # Continue with the current entity - no change needed
+            pass
+        elif tag.startswith('E-'):
+            # End current entity and add it to list
+            if entity_type is not None and entity_type == tag[2:]:
+                entities.append((entity_type, start_idx, i))
+                entity_type = None
+                start_idx = None
+            else:
+                # Handle error case: E- without matching B-
+                entities.append((tag[2:], i, i))
+        else:  # 'O' tag
+            # If we were tracking an entity, add it to the list (should not happen in valid BIOE)
+            if entity_type is not None:
+                entities.append((entity_type, start_idx, i - 1))
+                entity_type = None
+                start_idx = None
+    
+    # Check for incomplete entity at end (should not happen in valid BIOE)
+    if entity_type is not None:
+        entities.append((entity_type, start_idx, len(tags) - 1))
+    
+    return entities
+
+def extract_BIOES(tags):
+    """
+    Extract entities from BIOES tagging scheme.
+    
+    Args:
+        tags: List of BIOES tags (e.g., 'B-PER', 'I-PER', 'E-PER', 'S-PER', 'O')
+        
+    Returns:
+        List of tuples (entity_type, start_idx, end_idx)
+    """
+    entities = []
+    entity_type = None
+    start_idx = None
+    
+    for i, tag in enumerate(tags):
+        # Handle the case where tag might be a tuple
+        if isinstance(tag, tuple):
+            tag = tag[1]  # Extract the actual tag if it's a tuple
+            
+        if tag.startswith('B-'):
+            # If we were tracking an entity, add it to the list (should not happen in valid BIOES)
+            if entity_type is not None:
+                entities.append((entity_type, start_idx, i - 1))
+            
+            # Start a new entity
+            entity_type = tag[2:]  # Remove 'B-' prefix
+            start_idx = i
+        elif tag.startswith('I-'):
+            # Continue with the current entity - no change needed
+            pass
+        elif tag.startswith('E-'):
+            # End current entity and add it to list
+            if entity_type is not None and entity_type == tag[2:]:
+                entities.append((entity_type, start_idx, i))
+                entity_type = None
+                start_idx = None
+            else:
+                # Handle error case: E- without matching B-
+                entities.append((tag[2:], i, i))
+        elif tag.startswith('S-'):
+            # Single token entity
+            entities.append((tag[2:], i, i))
+        else:  # 'O' tag
+            # If we were tracking an entity, add it to the list (should not happen in valid BIOES)
+            if entity_type is not None:
+                entities.append((entity_type, start_idx, i - 1))
+                entity_type = None
+                start_idx = None
+    
+    # Check for incomplete entity at end (should not happen in valid BIOES)
+    if entity_type is not None:
+        entities.append((entity_type, start_idx, len(tags) - 1))
+    
+    return entities
+
+def extract_BIOW(tags):
+    """
+    Extract entities from BIOW tagging scheme.
+    
+    Args:
+        tags: List of BIOW tags (e.g., 'B-PER', 'I-PER', 'W-PER', 'O')
+        
+    Returns:
+        List of tuples (entity_type, start_idx, end_idx)
+    """
+    entities = []
+    entity_type = None
+    start_idx = None
+    
+    for i, tag in enumerate(tags):
+        # Handle the case where tag might be a tuple
+        if isinstance(tag, tuple):
+            tag = tag[1]  # Extract the actual tag if it's a tuple
+            
+        if tag.startswith('B-'):
+            # If we were tracking an entity, add it to the list (should not happen in valid BIOW)
+            if entity_type is not None:
+                entities.append((entity_type, start_idx, i - 1))
+            
+            # Start a new entity
+            entity_type = tag[2:]  # Remove 'B-' prefix
+            start_idx = i
+        elif tag.startswith('I-'):
+            # Continue with the current entity - no change needed
+            pass
+        elif tag.startswith('W-'):
+            # Whole entity (single token)
+            entities.append((tag[2:], i, i))
+        else:  # 'O' tag
+            # If we were tracking an entity, add it to the list
+            if entity_type is not None:
+                entities.append((entity_type, start_idx, i - 1))
+                entity_type = None
+                start_idx = None
+    
+    # Check for incomplete entity at end
+    if entity_type is not None:
+        entities.append((entity_type, start_idx, len(tags) - 1))
+    
+    return entities
+
+
 def extract_entities_types(gold_entities, pred_entities):
     entity_types = set()
     # Add entity types to our set
@@ -241,6 +617,10 @@ def extract_confusion_matrix(gold_entities, pred_entities):
     """
     confusion_matrix = {}
     # Build confusion matrix
+    
+    # Track positions that have been processed
+    processed_positions = set()
+    
     # For each gold entity, find if it was correctly predicted
     for gold_entity in gold_entities:
         gold_type, start, end = gold_entity
@@ -250,26 +630,32 @@ def extract_confusion_matrix(gold_entities, pred_entities):
         for pred_entity in pred_entities:
             pred_type, p_start, p_end = pred_entity
 
-            # Check for false positives (predictions without gold)
-            # Check if this prediction corresponds to any gold entity
-            has_gold = any(g_start == p_start and g_end == p_end for _, g_start, g_end in gold_entities)
-            
-            if not has_gold:
-                confusion_key = ("O", pred_type)  # "O" represents no gold entity
-                confusion_matrix[confusion_key] = confusion_matrix.get(confusion_key, 0) + 1
-
-            elif start == p_start and end == p_end:  # Comprobar 
+            if start == p_start and end == p_end:  # Check exact match
                 # Update confusion matrix
                 confusion_key = (gold_type, pred_type)
                 confusion_matrix[confusion_key] = confusion_matrix.get(confusion_key, 0) + 1
                 matched = True
+                # Mark this position as processed
+                processed_positions.add((p_start, p_end))
                 break
         
         # If no matching prediction was found, it's a false negative
         if not matched:
             confusion_key = (gold_type, "O")  # "O" represents no prediction
             confusion_matrix[confusion_key] = confusion_matrix.get(confusion_key, 0) + 1
-                
+    
+    # Process false positives (predictions without gold)
+    for pred_entity in pred_entities:
+        pred_type, p_start, p_end = pred_entity
+        # Check if this prediction has already been processed (matched with gold)
+        if (p_start, p_end) not in processed_positions:
+            confusion_key = ("O", pred_type)  # "O" represents no gold entity
+            confusion_matrix[confusion_key] = confusion_matrix.get(confusion_key, 0) + 1
+            
+    # Add true negatives count (O,O) - this requires knowing the total number of tokens
+    # that should be labeled as "O" in both gold and predicted data
+    # We need to add additional information to correctly count (O,O) cases
+    
     return confusion_matrix
 
 def extract_entities(tags, otherTAG = None):
@@ -285,6 +671,18 @@ def extract_entities(tags, otherTAG = None):
 
     if not otherTAG:
         entities = extract_BIO(tags)
+
+    elif otherTAG == 'IO':
+        entities = extract_IO(tags)
+
+    elif otherTAG == 'BIOE':
+        entities = extract_BIOE(tags)
+
+    elif otherTAG == 'BIOES':
+        entities = extract_BIOES(tags)
+    
+    elif otherTAG == 'BIOW':
+        entities = extract_BIOW(tags)
 
     return entities
     
@@ -314,7 +712,7 @@ def evaluate_entities(gold_entities, pred_entities):
         'correct': correct
     }
 
-def evaluate_ner_corpus(gold_data, predicted_data, otherTAG = None):
+def evaluate_ner_corpus(gold_data, predicted_data, otherTAG=None):
     """
     Evaluate NER performance at entity level across an entire corpus.
     
@@ -330,6 +728,7 @@ def evaluate_ner_corpus(gold_data, predicted_data, otherTAG = None):
     total_pred = 0
     all_confusion_matrix = {}
     all_entity_types = set()
+    total_tokens = 0  # Track total tokens for O,O calculation
     
     for i in range(len(gold_data)):
         # Extract just the tags
@@ -339,13 +738,31 @@ def evaluate_ner_corpus(gold_data, predicted_data, otherTAG = None):
         gold_tags = []
         pred_tags = []
         for j in range(len(sentence)):
-           # Extrae el tag de cada palabra.
+            # Extract the tag of each word
             gold_tags.append(sentence[j][1])
             pred_tags.append(sentence_pred[j][1])
-           
+        
+        total_tokens += len(gold_tags)  # Count total tokens
+        
         # Extract entities
         gold_entities = extract_entities(gold_tags, otherTAG)
         pred_entities = extract_entities(pred_tags, otherTAG)
+        
+        # Track positions covered by entities in both gold and pred
+        gold_positions = set()
+        for _, start, end in gold_entities:
+            for pos in range(start, end + 1):
+                gold_positions.add(pos)
+                
+        pred_positions = set()
+        for _, start, end in pred_entities:
+            for pos in range(start, end + 1):
+                pred_positions.add(pos)
+        
+        # Calculate O,O positions (true negatives)
+        o_o_count = len(sentence) - len(gold_positions.union(pred_positions))
+        if o_o_count > 0:
+            all_confusion_matrix[("O", "O")] = all_confusion_matrix.get(("O", "O"), 0) + o_o_count
         
         # Evaluate this sentence
         results = evaluate_entities(gold_entities, pred_entities)
@@ -363,10 +780,9 @@ def evaluate_ner_corpus(gold_data, predicted_data, otherTAG = None):
         total_pred += results['pred_count']
     
     # Calculate overall metrics
-    precision = total_correct / total_pred if total_pred > 0 else 0.0 # total_pred incluye las predicciones correctas y las incorrectas y además las predichas "inventadas".
-    recall = total_correct / total_gold if total_gold > 0 else 1.0 # total_gold incluye las correctas predichas y las incorrectas y además las que no se han predicho.
+    precision = total_correct / total_pred if total_pred > 0 else 0.0
+    recall = total_correct / total_gold if total_gold > 0 else 1.0
     f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
-    
     
     return {
         'precision': precision,
@@ -470,10 +886,11 @@ def run_optimal_configuration(model_path=None, preprocessed_test = None, train_t
     # Create feature function with optimal settings (based on our findings)
     optimal_feat_func = OptimizedFeatFunc(
         use_Basic=True,
-        use_context_words=False, 
-        use_contex_POS_tag=False,
-        use_lemas=False,  # Including lemmatization
-        use_specific_caracteristics=False
+        use_context_words=True, 
+        use_contex_POS_tag=True,
+        use_lemas=True,  # Including lemmatization
+        use_specific_caracteristics=False,
+        use_EXTRA=False  # Including extra features
     )
     
     # Initialize CRF tagger with our feature function
@@ -485,11 +902,12 @@ def run_optimal_configuration(model_path=None, preprocessed_test = None, train_t
     
     print(f"Loading pre-trained model from {model_path}...")
         # Load the model instead of training
-    optimal_tagger.set_model_file(model_path)
+    if model_path:
+        optimal_tagger.set_model_file(model_path)
     
     print("Evaluating model on test data...")
     # Evaluate using entity-level metrics
-    if train_tags:
+    if otherTAG:
         entity_results = entity_level_accuracy(optimal_tagger, preprocessed_test, otherTAG = otherTAG)
     else:
         entity_results = entity_level_accuracy(optimal_tagger, preprocessed_test)
@@ -504,6 +922,7 @@ def run_optimal_configuration(model_path=None, preprocessed_test = None, train_t
     plot_confusion_matrix(entity_results['confusion_matrix'], entity_results['entity_types'])
     
     return entity_results
+
 import time
 
 def train_completo(processed_train, processed_val):
@@ -620,3 +1039,226 @@ def evaluate_feature_combination(config, processed_train, processed_val):
     entity_metrics = entity_level_accuracy(ct, processed_val)
     
     return ct, entity_metrics
+
+
+def bio_to_io(tagged_sent: List[Tuple[str, str, str]]) -> List[List[Tuple[str, str, str]]]:
+    """Convert BIO tagging to IO tagging
+    
+    Args:
+        tagged_sent: List of sentences where each sentence is a list of tuples (word, pos, tag) in BIO format.
+        
+    Returns:
+        List of sentences where each sentence is a list of tuples (word, pos, tag) in IO format.
+    """
+    io_data = []
+    for sentence in tagged_sent:
+        io_sentence = []
+        for word, pos, tag in sentence:
+            if tag.startswith('B-'):
+                # Replace B- with I- for any entity tag
+                entity_type = tag[2:]
+                io_sentence.append((word, pos, f"I-{entity_type}"))
+            else:
+                # Keep I- tags and O tags as they are
+                io_sentence.append((word, pos, tag))
+        io_data.append(io_sentence)
+    return io_data
+
+def bio_to_bioe(tagged_sent: List[List[Tuple[str, str, str]]]) -> List[List[Tuple[str, str, str]]]:
+    """Convert BIO tagging to BIOE tagging (BIOE incluye E to indicate the end of an entity)
+    Args:
+        tagged_sent: List of sentences where each sentence is a list of tuples (word, pos, tag) in BIO format.
+        
+    Returns:
+        List of sentences where each sentence is a list of tuples (word, pos, tag) in BIOE format.
+    """
+    bioe_data = []
+    for sentence in tagged_sent:
+        bioe_sentence = []
+        n = len(sentence)
+        i = 0
+        while i < n:
+            word, pos, tag = sentence[i]
+            
+            if tag.startswith('B-'):
+                entity_type = tag[2:]
+                
+                # Find the end of the entity
+                j = i + 1
+                is_multi_token = False
+                while j < n and sentence[j][2] == f"I-{entity_type}":
+                    is_multi_token = True
+                    j += 1
+                
+                # Add the B- tag
+                bioe_sentence.append((word, pos, tag))
+                
+                # Process all intermediate I- tags
+                for k in range(i + 1, j - 1):
+                    bioe_sentence.append(sentence[k])
+                
+                # Convert the last I- tag to E- if this is a multi-token entity
+                if is_multi_token:
+                    last_word, last_pos, last_tag = sentence[j - 1]
+                    bioe_sentence.append((last_word, last_pos, f"E-{entity_type}"))
+                    i = j
+                else:
+                    i += 1
+            else:
+                bioe_sentence.append((word, pos, tag))
+                i += 1
+                
+        bioe_data.append(bioe_sentence)
+    return bioe_data
+
+def bio_to_bioes(tagged_sent: List[List[Tuple[str, str, str]]]) -> List[List[Tuple[str, str, str]]]:
+    """Convert BIO tagging to BIOES tagging
+    Args:
+        tagged_sent: List of sentences where each sentence is a list of tuples (word, pos, tag) in BIO format.
+        
+    Returns:
+        List of sentences where each sentence is a list of tuples (word, pos, tag) in BIOES format.
+    """
+    bioes_data = []
+    for sentence in tagged_sent:
+        bioes_sentence = []
+        n = len(sentence)
+        i = 0
+        while i < n:
+            word, pos, tag = sentence[i]
+            
+            if tag.startswith('B-'):
+                entity_type = tag[2:]
+                
+                # Check if it's a singleton entity (no following I- tags)
+                if i + 1 == n or not sentence[i+1][2].startswith(f"I-{entity_type}"):
+                    bioes_sentence.append((word, pos, f"S-{entity_type}"))
+                    i += 1
+                else:
+                    # It's the beginning of a multi-token entity
+                    bioes_sentence.append((word, pos, tag))
+                    i += 1
+                    
+                    # Process all the intermediate I- tags
+                    while i < n and sentence[i][2] == f"I-{entity_type}":
+                        # Check if this is the last I- tag
+                        if i + 1 == n or sentence[i+1][2] != f"I-{entity_type}":
+                            # Change last I- tag to E- tag
+                            word_i, pos_i, _ = sentence[i]
+                            bioes_sentence.append((word_i, pos_i, f"E-{entity_type}"))
+                        else:
+                            bioes_sentence.append(sentence[i])
+                        i += 1
+            else:
+                bioes_sentence.append((word, pos, tag))
+                i += 1
+                
+        bioes_data.append(bioes_sentence)
+    return bioes_data
+
+def bio_to_biow(tagged_sent: List[List[Tuple[str, str, str]]]) -> List[List[Tuple[str, str, str]]]:
+    """Convert BIO tagging to BIOW tagging (BIOW incluye W to indicate single-token entities)
+    Args:
+        tagged_sent: List of sentences where each sentence is a list of tuples (word, pos, tag) in BIO format.
+        
+    Returns:
+        List of sentences where each sentence is a list of tuples (word, pos, tag) in BIOW format.
+    """
+    biow_data = []
+    for sentence in tagged_sent:
+        biow_sentence = []
+        n = len(sentence)
+        
+        for i, (word, pos, tag) in enumerate(sentence):
+            if tag.startswith('B-'):
+                entity_type = tag[2:]
+                # Check if it's a single-token entity
+                if (i + 1 == n) or (not sentence[i+1][2].startswith(f"I-{entity_type}")):
+                    biow_sentence.append((word, pos, f"W-{entity_type}"))
+                else:
+                    biow_sentence.append((word, pos, tag))
+            else:
+                biow_sentence.append((word, pos, tag))
+                
+        biow_data.append(biow_sentence)
+    return biow_data
+
+
+## hay que guardar los modelos de tags y las salidas.
+def test_with_othersCodes(train, preprocessed_test, best_model_path):
+    Codes = ['BIO', 'IO', 'BIOE', 'BIOES', 'BIOW']
+    test_results = {}
+    
+    '''# Extract entities from test data (for comparison)
+    test_entities = {}
+    for i in range(len(preprocessed_test)):
+        sentence = preprocessed_test[i]
+        test_tags = []
+        
+        for j in range(len(sentence)):
+            # Extract the tag from each word
+            test_tags.append(sentence[j][1])
+            
+        # Store entities from original test data
+        test_entities[i] = extract_entities(test_tags)'''
+
+    # Test each tagging scheme
+    for scheme in Codes[1:]:
+        print(f"\nProcessing {scheme} tagging scheme...")
+        
+        # Convert training data to the current scheme
+        if scheme == 'IO':
+            train_tag_data = bio_to_io(train)
+        elif scheme == 'BIOE':
+            train_tag_data = bio_to_bioe(train)
+        elif scheme == 'BIOES':
+            train_tag_data = bio_to_bioes(train)
+        elif scheme == 'BIOW':
+            train_tag_data = bio_to_biow(train)
+            
+        # Process the converted training data for CRF
+        preprocessed_train_tags = prepare_data_for_crf(train_tag_data, True)
+        
+        # Train a new model with this tagging scheme
+        print(f"Training model with {scheme} tagging scheme...")
+        scheme_model_path = f'{scheme}_model.crf.tagger'
+        
+        results = run_optimal_configuration(model_path=best_model_path, 
+                                            preprocessed_test=preprocessed_test, 
+                                            train_tags=preprocessed_train_tags, 
+                                            otherTAG = scheme)
+        # Store results
+        test_results[scheme] = results
+        
+        # Print results
+        print(f"\nResults for {scheme} tagging scheme:")
+        print(f"Precision: {results['precision']:.4f}")
+        print(f"Recall: {results['recall']:.4f}")
+        print(f"F1 Score: {results['f1']:.4f}")
+        
+    # Compare results
+    print("\n=== Comparison of Tagging Schemes ===")
+    schemes = ['BIO'] + Codes[1:]
+    metrics = ['precision', 'recall', 'f1']
+    
+    # Add BIO results (default)
+    bio_results = run_optimal_configuration(best_model_path, preprocessed_test)
+    test_results['BIO'] = bio_results
+    
+    # Create DataFrame for plotting
+    results_df = pd.DataFrame({
+        scheme: {metric: test_results[scheme][metric] for metric in metrics}
+        for scheme in schemes
+    })
+    
+    # Plot comparison
+    results_df.plot(kind='bar', figsize=(12, 6))
+    plt.title('Performance Comparison of Different Tagging Schemes')
+    plt.ylabel('Score')
+    plt.xlabel('Metric')
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.ylim(0, 1)
+    plt.tight_layout()
+    plt.show()
+    
+    return test_results
