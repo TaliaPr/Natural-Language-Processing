@@ -6,11 +6,12 @@ import matplotlib.pyplot as plt
 from nltk.tag import CRFTagger
 from itertools import combinations
 from collections import Counter
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union
 import time
 import pandas as pd
 import seaborn as sns
 import numpy as np
+
 
 # Crear una función para graficar
 def plot_tag_distribution(tag_counts, title, exclude_tag=None):
@@ -142,7 +143,7 @@ class SimpleGazetteerExtractor:
             print(f"{trigram[0]} {trigram[1]} {trigram[2]}: {freq}")
 
 class OptimizedFeatFunc:
-    def __init__(self, use_Basic: bool = True, use_context_words: bool = True, use_contex_POS_tag: bool = True, use_specific_caracteristics: bool = True, use_lemas: bool = True, use_EXTRA: bool = False):
+    def __init__(self, use_Basic: bool = True, use_context_words: bool = True, use_contex_POS_tag: bool = True, use_specific_caracteristics: bool = True, use_lemas: bool = True, use_EXTRA: bool = False)-> Dict[str, Union[str, bool]]:
         """
         Constructor de la clase de las funciones de características para el CRFTagger.
         Uso:
@@ -151,6 +152,9 @@ class OptimizedFeatFunc:
         - use_contex_POS_tag: Si se deben usar etiquetas POS de contexto (etiqueta anterior y siguiente)
         - use_specific_caracteristics: Si se deben usar características específicas (Gazetteer)
         - use_lemas: Si se deben usar lemas (forma base de la palabra)
+        - use_extra: Gazzetters para el apartado opcional CADEC Corpus. 
+
+        Importante: Si use_extra está en True, entonces el usuario debe fijar use_specific_caracteristics a False 
        
         """
         self.use_basic_features = use_Basic
@@ -316,8 +320,8 @@ class OptimizedFeatFunc:
         self.cache[cache_key] = feats
         return feats
     
-from typing import List, Tuple
-import spacy
+
+
 # Load SpaCy model for Spanish
 nlp = spacy.load("es_core_news_sm")
 
@@ -822,10 +826,7 @@ def entity_level_accuracy(tagger, test_data, otherTAG = None):
     
     return results
 
-from typing import Dict
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+
 
 def plot_confusion_matrix(confusion_matrix: Dict[Tuple[str, str], int], entity_types: set) -> None:
     """Args:
@@ -869,7 +870,6 @@ def plot_confusion_matrix(confusion_matrix: Dict[Tuple[str, str], int], entity_t
         if gold != pred:
             print(f"  {gold} mistaken as {pred}: {count} times")
     
-from nltk.tag import CRFTagger
 
 # Example of running a complete analysis with the optimal feature configuration
 def run_optimal_configuration(model_path=None, preprocessed_test = None, train_tags = None, otherTAG = None):
@@ -923,7 +923,6 @@ def run_optimal_configuration(model_path=None, preprocessed_test = None, train_t
     
     return entity_results
 
-import time
 
 def train_completo(processed_train, processed_val):
     # Define feature groups to test
